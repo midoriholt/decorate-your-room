@@ -6,6 +6,9 @@ namespace SpriteKind {
     export const furnit = SpriteKind.create()
     export const seaweed = SpriteKind.create()
 }
+/**
+ * More instructions
+ */
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     game.showLongText("He has now given you a couch. Take it home and use the menu key to place it. ", DialogLayout.Bottom)
 })
@@ -173,6 +176,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.cave, function (sprite, otherSpr
     playLevel()
 })
 info.onCountdownEnd(function () {
+    music.stopAllSounds()
+    music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.UntilDone)
     game.splash("Good job! Collect the ham.")
     sprites.destroy(fly, effects.disintegrate, 500)
     sprites.destroy(bone_1, effects.disintegrate, 500)
@@ -219,6 +224,7 @@ info.onCountdownEnd(function () {
 })
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
     info.setLife(0)
+    music.stopAllSounds()
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.door, function (sprite, otherSprite) {
     scene.setBackgroundImage(img`
@@ -343,6 +349,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.door, function (sprite, otherSpr
         dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
         dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
         `)
+    game.showLongText("Talk to the villager, or touch the seaweed to go home, and if you dare, enter the cave.", DialogLayout.Center)
     sprites.destroy(standstill)
     NPC = sprites.create(img`
         . . . . d d d d d d d d . . . . 
@@ -480,8 +487,13 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         `, SpriteKind.furnit)
     controller.moveSprite(couch, 50, 50)
 })
+/**
+ * Added sounds to make the gameplay more interactive for people with sight issues.
+ */
 function playLevel () {
-    game.splash("Level 1- avoid the fly and the skull")
+    game.showLongText("Level 1- Avoid the fly and the skull to get the ham", DialogLayout.Full)
+    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.UntilDone)
+    music.play(music.stringPlayable("E C B D F E B F ", 350), music.PlaybackMode.LoopingInBackground)
     bone_1 = sprites.create(img`
         ........................
         ........................
@@ -863,7 +875,7 @@ let Seaweed: Sprite = null
 let NPC: Sprite = null
 let standstill: Sprite = null
 let frog_girl: Sprite = null
-game.showLongText("Defeat the enemies to collect furniture. Use this furniture to decorate your house.", DialogLayout.Bottom)
+game.showLongText("Defeat the enemies to collect furniture. Use this furniture to decorate your house.", DialogLayout.Full)
 scene.setBackgroundImage(img`
     dddddddddddddddddddddd111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
     dddddddddddddddddddddd111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
